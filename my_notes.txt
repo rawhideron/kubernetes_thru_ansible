@@ -42,7 +42,15 @@ sudo systemctl status containerd
 sudo apt-get update && sudo apt-get install -y apt-transport-https curl
 
 ---------- Download and add GPG key ------
-sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+wget -O - https://download.docker.com/linux/ubuntu/gpg > ./docker.key
+
+gpg --no-default-keyring --keyring ./docker.gpg --import ./docker.key
+
+gpg --no-default-keyring --keyring ./docker.gpg --export > ./docker-archive-keyring.gpg
+
+sudo mv ./docker-archive-keyring.gpg /etc/apt/trusted.gpg.d/
+
 
 echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
 
